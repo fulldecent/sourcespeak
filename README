@@ -1,0 +1,68 @@
+* Source Speak
+* By Will Entriken "Full Decent"
+* Version 0.2 6/5/2005
+
+* http://sourcespeak.sourceforge.net
+
+* Copyright (C) 2001-2005 Will Entriken <cameralife@phor.net>
+*
+* Source Speak is free software; you can redistribute 
+* it and/or modify it under the terms of the GNU General Public License
+* as published by the Free Software Foundation; either version 2
+* of the License, or (at your option) any later version.
+*
+* Source Speak is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Chatterbox; see the file LICENSE. If not, write to the Free 
+* Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 
+* 02111-1307, USA. Or visit http://www.gnu.org/licenses/gpl.html
+
+I INTRODUCTION
+
+  Source Speak is a system for displaying source code. It is a turn-key
+  solution for hosting source code on a website. 
+
+
+II FEATURES
+
+ A Uses Vim syntax hilighting engine
+
+   Source Speak uses the Vim engine to highlight the code. Any format supported
+   by Vim (virtually all) will be handled.
+
+ B Easily Themable
+
+   All source code highlighting is done by a single CSS style sheet. To change
+   the look, simply replace the stylesheet.
+
+ C Attach arbitrary metadata
+
+   You can display arbitrary metadata with each project, like Author, version, etc.
+   Simple choose the metadata to display in the config.php file.
+
+
+III INSTALLATION
+
+ A Pre-requesites
+
+   Source Speak requires: PHP and Vim with syntax highlighting support.
+
+ B Unpack
+
+   tar xfz sourcespeak-*.tar.gz
+
+ C Set permissions
+
+   chown -R apache:apache cache metadata
+
+ D Add source code.
+
+   Copy your projects source code folder to the projects/ directory or create a
+   soft link.
+
+
+Thank you for choosing Source Speak for your source code displaying needs!
