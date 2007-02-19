@@ -1,1 +1,0 @@
-a:4:{s:6:"Author";s:13:"Tyler McHenry";s:7:"Version";s:5:"1.9.3";s:11:"Description";s:0:"";s:7:"Details";s:0:"";}

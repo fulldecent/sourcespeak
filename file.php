@@ -2,9 +2,10 @@
   # Source Speak - file view
 
   include('config.php');
-
   $project = $_REQUEST['project'];
   $path = $_REQUEST['path'];
+  if (strstr($project,'..'))
+    die ('Hey! No hacking!');
   if (strstr($path,'..'))
     die ('Hey! No hacking!');
    
@@ -14,6 +15,11 @@
   function mkdir_p($path)
   {
     return is_dir($path) || mkdir_p(dirname($path)) && mkdir($path);
+  }
+
+  if (!file_exists($filename))
+  {
+    die('That file doesnt exist');
   }
 
   if (!file_exists($filename_pretty) || filemtime($filename_pretty) <= filemtime($filename) || $_REQUEST['redo'])

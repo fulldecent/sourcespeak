@@ -2,6 +2,9 @@
   include('config.php');
 
   $project = $_REQUEST['name'];
+   if (strstr($project,'..'))
+      die ('Hey! No hacking!');
+
 
   if ($_POST)
   {

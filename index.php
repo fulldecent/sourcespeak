@@ -38,6 +38,7 @@
   $dir_handle = opendir('projects');
   while ($project = readdir($dir_handle))
   {
+    if ($project[0]=='.') continue;
     $project_safe = preg_replace('/[^a-zA-Z]/','',$project);
     if (!$project_safe) continue;
     $project_count++;
@@ -95,7 +96,7 @@
             <td align=right class="Section">Site:
           <tr>
             <td class="content-right" align=right>
-              <img src="images/user.png" align=center>
+              <img src="images/project.png" align=center>
               Hosted projects: <?= $project_count ?>
           <tr>
             <td class="content-right" align=right>

@@ -1,7 +1,7 @@
 <?php
 
-  $site_name = 'Full Decent Code Life';
-  $admin_email = 'devel@phor.net';
+  $site_name = 'Source Speak Demo';
+  $admin_email = 'sourcespeak@phor.net';
   $admin_password = 'bobob778w';
 
   // What meta-data is available for each project?
@@ -13,6 +13,6 @@
     array ('Details', 'textarea', 0, 1)
   );
   
-  $version = "0.2 dev";
+  $version = "0.2 cvs";
 
 ?>
