@@ -45,7 +45,7 @@
           <tr>
             <td class="content-right" align=right>
               <a href="index.php"><img src="images/link.png"> Home</a><br>
-              <a href="http://fddl.sourceforge.net/"><img src="images/link.png"> Project Page</a><br>
+              <a href="http://sourcespeak.sourceforge.net/"><img src="images/link.png"> Project Page</a><br>
               <a href="mailto:<?= $admin_email ?>"><img src="images/link.png"> E-mail Webmaster</a><br>
         </table>
 

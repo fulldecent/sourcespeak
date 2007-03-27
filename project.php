@@ -76,11 +76,11 @@
 
   if ($metadata)
   {
-    echo "<table>";
+    echo "<dl>";
     foreach ($metadata_fields as $field)
       if ($field[3]) 
-        echo '<tr><td>'.$field[0].":<td>".$metadata[$field[0]];
-    echo "</table>";
+        echo '<dt>'.$field[0].":</dt><dd>".$metadata[$field[0]].'</dd>';
+    echo "</dl>";
   }
   else
   {

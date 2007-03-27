@@ -1,9 +1,7 @@
 <?php
   $project = $_GET['project'];
-  if (strstr('..', $project))
-    die ('Hey! No hacking');
-  if (strstr("'", $project))
-    die ('Hey! No hacking');
+  if (strstr('..', $project)) die ('Hey! No hacking');
+  if (strstr("'", $project)) die ('Hey! No hacking');
 
   chdir('projects');
   $cmd = "tar -cf - ./'$project/'";
@@ -12,5 +10,4 @@
   header("Content-Disposition: attachment; filename=\"$project.tar\"");
 
   passthru($cmd);
-
 ?> 
