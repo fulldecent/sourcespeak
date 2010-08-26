@@ -1,30 +1,20 @@
 * Source Speak
 * By Will Entriken "Full Decent"
-* Version 0.2 6/5/2005
-
+* Copyright 2001-2010
+* Version 1.0 
+*
 * http://sourcespeak.sourceforge.net
-
-* Copyright (C) 2001-2005 Will Entriken <cameralife@phor.net>
 *
 * Source Speak is free software; you can redistribute 
 * it and/or modify it under the terms of the GNU General Public License
 * as published by the Free Software Foundation; either version 2
 * of the License, or (at your option) any later version.
 *
-* Source Speak is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with Chatterbox; see the file LICENSE. If not, write to the Free 
-* Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 
-* 02111-1307, USA. Or visit http://www.gnu.org/licenses/gpl.html
+* Please see the LICENSE file for details
 
 I INTRODUCTION
 
-  Source Speak is a system for displaying source code. It is a turn-key
-  solution for hosting source code on a website. 
+  Source Speak is a turn-key system for displaying source code on a web site.
 
 
 II FEATURES
@@ -32,17 +22,17 @@ II FEATURES
  A Uses Vim syntax hilighting engine
 
    Source Speak uses the Vim engine to highlight the code. Any format supported
-   by Vim (virtually all) will be handled.
+   by Vim (virtually everything) will be handled.
 
  B Easily Themable
 
    All source code highlighting is done by a single CSS style sheet. To change
-   the look, simply replace the stylesheet.
+   the look, simply edit common.css.
 
  C Attach arbitrary metadata
 
-   You can display arbitrary metadata with each project, like Author, version, etc.
-   Simple choose the metadata to display in the config.php file.
+   You can display arbitrary metadata with each project, like Author, Version, etc.
+   Simply choose the metadata to display in the config.php file.
 
 
 III INSTALLATION
@@ -58,6 +48,8 @@ III INSTALLATION
  C Set permissions
 
    chown -R apache:apache cache metadata
+    -or-
+   chmod 777 cache/ metadata/
 
  D Add source code.
 

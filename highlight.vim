@@ -4,7 +4,10 @@
 "	       (modified by David Ne\v{c}as (Yeti) <yeti@physics.muni.cz>)
 
 " Transform a file into HTML, using the current syntax highlighting.
+"
+" Pass FILE as environmental variable to set output file
 
+redir > cache/vimoutput.txt
 let term="gui"
 syn on
 
@@ -14,9 +17,11 @@ syn on
 set notitle noicon
 setlocal et
 set report=1000000
+let " debug
 
 " Split window to create a buffer with the HTML file.
-new cache/tmp.html
+new $FILE
+"new cache/tmp.html
 "set modifiable
 %d
 set paste
@@ -92,14 +97,12 @@ while s:lnum <= s:end
 
   exe "normal \<C-W>pa" . strtrans(s:new) . "\n\e\<C-W>p"
   let s:lnum = s:lnum + 1
-  +
 endwhile
 " Finish with the last line
   exe "normal \<C-W>pa\e"
 
 
 " Now, when we finally know which, we define the colors and styles
-  8
 
 
 " Add hyperlinks

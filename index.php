@@ -1,110 +1,83 @@
 <?php
-  include('config.php');
-  
-  function HTMLinput($name, &$var)
-  {
-    if ($_POST[$name])
-      $var = $_POST[$name];
-    echo "<input type=\"text\" name=\"$name\" value=\"".$var."\">\n";
-  }
+  # index.php - Displays an overview of projects.
+  #
+  # Inputs: none
+
+  if (!file_exists('config.php'))
+    die('Please edit config-example.php and move it to config.php to activate this site.');
+
+  $project_count = 0;
+
+  require 'config.php';
 ?>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+  Welcome to <?= $site_name ?>, maintained by <?= $admin_email ?>
+
+  This site is powered by Source Speak <?= $version ?>, available at: http://sourcespeak.sourceforge.net
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
   <title>Welcome to <?= $site_name ?></title>
-  <link rel="stylesheet" href="common.css" type="text/css">
+  <link rel="stylesheet" href="common.css" type="text/css" />
 </head>
 <body>
-  <form method="POST">
-<!--
-  Welcome to <?= $site_name ?>!
-  This site is maintained by: <?= $admin_email ?>
-  This site is powered by Source Speak version <?= $version ?>,
-  available at: http://sourcespeak.sourceforge.net
--->
-  <table class="main-table" width="100%">
-    <tr> 
-      <td colspan=2 align=center>
-        <img src="images/logo.png">
-        <font style="font-size:xx-large;font-family:courier"><?= $site_name ?></font>
-    <tr valign=top>
-      <td width="66%" rowspan=2>
-        <table width="100%">
-          <tr>
-            <td class="Section">
-              Projects:
+  <h1><img alt="logo" src="images/logo.png" /> <?= $site_name ?></h1>
+  <div id="leftcolumn"> 
+    <h2>Projects:</h2>
+    <ul>
 <?php
   # List each project
 
-  $dir_handle = opendir('projects');
-  while ($project = readdir($dir_handle))
+  foreach (glob('projects/*/') as $project)
   {
     if ($project[0]=='.') continue;
-    $project_safe = preg_replace('/[^a-zA-Z]/','',$project);
-    if (!$project_safe) continue;
+    $project = basename($project);
+    if (preg_match('/[^a-zA-Z0-9.-]/',$project))
+      continue;
     $project_count++;
 
-    echo '<tr><td class="content-left">';
-    echo "<a class=\"content-left\" href=\"project.php&#63;name=$project\">";
-    echo '<img src="images/project.png" align=center> ';
-    echo $project;
-    echo '</a>';
+    echo "      <li>\n";
+    echo "        <a href=\"project.php&#63;name=$project\">\n";
+    echo "          <img src=\"images/project-small.png\" alt=\"$project\" />\n";
+    echo "          $project\n";
+    echo "        </a>\n";
 
-    if ($admin)
-    {
-      if (file_exists("metadata/$project.txt"))
-        $metadata = unserialize(file_get_contents("metadata/$project.txt"));
-      else
-        $metadata = array();
-      
-      echo '<p>';
-      echo "Author: ";
-      HTMLinput("$project_safe-author", $metadata['author']);
-      echo "<br>Version: ";
-      HTMLinput("$project_safe-version", $metadata['version']);
-      echo '</p>';
-      
-      $fp = fopen("metadata/$project.txt", 'w+');
-      fwrite($fp, serialize($metadata));
-      fclose($fp);
-    
-    }
-    else if (file_exists("metadata/$project.txt"))
+    if (file_exists("metadata/$project.txt"))
     {
       $metadata = unserialize(implode('',file("metadata/$project.txt")));
-      echo "<table>";
-      foreach ($metadata_fields as $field)
+      echo "        <dl style=\"display:block\">\n";
+      foreach ($metadata_fields as $field) // metadata_fields is set in config.php
       {
-        if (!$field[2]) continue;
-        echo "<tr><td>".$field[0].":<td>".$metadata[$field[0]];
+        if (!$metadata[$field[0]]) continue;
+        echo "          <dt>".$field[0].":</dt><dd>".$metadata[$field[0]]."</dd>\n";
       }
-      echo "</table>";
+      echo "        </dl>\n";
     }
     else
     {
-      echo "<p style='color:grey'><i>(no metadata)</i></p>";
+      echo "        <p class=\"nometadata\">(no metadata)</p>";
     }
+    echo "      </li>\n";
   }
-  
-  if ($admin) echo "<tr><td><input type=\"submit\" value=\"Save Changes\">";
-  
-  closedir($dir_handle);
 ?>
-        </table>
-      <td align=right>
-        <table width="100%">
-          <tr>
-            <td align=right class="Section">Site:
-          <tr>
-            <td class="content-right" align=right>
-              <img src="images/project.png" align=center>
-              Hosted projects: <?= $project_count ?>
-          <tr>
-            <td class="content-right" align=right>
-              <a href="about.php">
-              <img src="images/link.png" align=center>
-              About
-              </a>
-        </table>
-  </table>
+    </ul>
+  </div>
+  <div id="rightcolumn"> 
+    <h2>Site:</h2>
+    <ul>
+      <li>
+        <img src="images/project-small.png" alt="projects" />
+        Hosted projects: <?= $project_count ?>
+      </li>
+      <li>
+        <a href="about.php">
+          <img src="images/logo-small.png" alt="link" />
+          About
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="footer">&nbsp;</div>
 </body>
 </html>
