@@ -14,7 +14,7 @@
 <!--
   Welcome to <?= $site_name ?>, maintained by <?= $admin_email ?>
 
-  This site is powered by Source Speak <?= $version ?>, available at: http://sourcespeak.sourceforge.net
+  This site is powered by Source Speak 1.1, available at: http://sourcespeak.sourceforge.net
 -->
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>

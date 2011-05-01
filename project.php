@@ -10,6 +10,8 @@
   $project = $_REQUEST['name'];
   if (strstr($_REQUEST['path'],'..'))
     die ('Hey! No hacking!');
+  if (strstr($_REQUEST['name'],'..'))
+    die ('Hey! No hacking!');
   
   if (file_exists("metadata/$project.txt"))
     $metadata = unserialize(implode('',file("metadata/$project.txt")));
@@ -30,7 +32,8 @@
 <?php
   # List files
 
-  $dir_handle = opendir("projects/$project/$path");
+  $dir_handle = opendir("projects/$project/$path") 
+    or die('Project not found');
   
   while ($file = readdir($dir_handle))
   {
