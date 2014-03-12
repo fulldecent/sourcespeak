@@ -1,83 +1,78 @@
 <?php
-  # index.php - Displays an overview of projects.
-  #
-  # Inputs: none
-
-  if (!file_exists('config.php'))
-    die('Please edit config-example.php and move it to config.php to activate this site.');
-
-  $project_count = 0;
-
-  require 'config.php';
+error_reporting(-1);
+# index.php - Displays an overview of projects.
+#
+# Inputs: none
+if (!file_exists('config.json'))
+  die('Please copy config-example.json to config.json and edit it to activate this site.');
+$config = json_decode(file_get_contents('config.json'));
+$project_count = 0;
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!--
-  Welcome to <?= $site_name ?>, maintained by <?= $admin_email ?>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= $config->siteName ?></title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
 
-  This site is powered by Source Speak 1.1, available at: http://sourcespeak.sourceforge.net
--->
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-  <title>Welcome to <?= $site_name ?></title>
-  <link rel="stylesheet" href="common.css" type="text/css" />
-</head>
-<body>
-  <h1><img alt="logo" src="images/logo.png" /> <?= $site_name ?></h1>
-  <div id="leftcolumn"> 
-    <h2>Projects:</h2>
-    <ul>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <a class="navbar-brand" href="index.php"><i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i> <?= $config->siteName ?></a>
+        <p class="navbar-text"><?= $config->siteTagline ?></p>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
 <?php
-  # List each project
+foreach (glob('projects/*/') as $project)
+{
+  if ($project[0]=='.') continue;
+  $project = basename($project);
+  if (preg_match('/[^a-zA-Z0-9.-]/',$project))
+    continue;
+  $project_count++;
 
-  foreach (glob('projects/*/') as $project)
+  echo "      <div class=\"thumbnail\">\n";
+  echo "        <a href=\"project.php&#63;project=$project\">\n";
+  echo "          <h3><i class=\"glyphicon glyphicon-book\"></i> $project</h3>\n";
+  echo "        </a>\n";
+
+  if (file_exists("metadata/$project.json"))
   {
-    if ($project[0]=='.') continue;
-    $project = basename($project);
-    if (preg_match('/[^a-zA-Z0-9.-]/',$project))
-      continue;
-    $project_count++;
-
-    echo "      <li>\n";
-    echo "        <a href=\"project.php&#63;name=$project\">\n";
-    echo "          <img src=\"images/project-small.png\" alt=\"$project\" />\n";
-    echo "          $project\n";
-    echo "        </a>\n";
-
-    if (file_exists("metadata/$project.txt"))
+    $metadata = json_decode(file_get_contents("metadata/$project.json"));
+    echo "        <dl class=\"dl-horizontal\">\n";
+    foreach ($config->metadataFields as $field)
     {
-      $metadata = unserialize(implode('',file("metadata/$project.txt")));
-      echo "        <dl style=\"display:block\">\n";
-      foreach ($metadata_fields as $field) // metadata_fields is set in config.php
-      {
-        if (!$metadata[$field[0]]) continue;
-        echo "          <dt>".$field[0].":</dt><dd>".$metadata[$field[0]]."</dd>\n";
-      }
-      echo "        </dl>\n";
+      if (!isset($metadata->{$field->name})) continue;
+      echo "          <dt>".$field->name.":</dt><dd>".$metadata->{$field->name}."</dd>\n";
     }
-    else
-    {
-      echo "        <p class=\"nometadata\">(no metadata)</p>";
-    }
-    echo "      </li>\n";
+    echo "        </dl>\n";
   }
+  else
+  {
+    echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
+  }
+  echo "      </div>\n";
+}
 ?>
-    </ul>
-  </div>
-  <div id="rightcolumn"> 
-    <h2>Site:</h2>
-    <ul>
-      <li>
-        <img src="images/project-small.png" alt="projects" />
-        Hosted projects: <?= $project_count ?>
-      </li>
-      <li>
-        <a href="about.php">
-          <img src="images/logo-small.png" alt="link" />
-          About
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="footer">&nbsp;</div>
-</body>
+        </div>
+        <div class="col-md-4">
+          <p class="lead"><i class="glyphicon glyphicon-info-sign"></i> Hosted projects: <?= $project_count ?></p>
+          <p class="lead"><i class="glyphicon glyphicon-info-sign"></i> Webmaster: <?= $config->adminEmail ?></p>
+          <p class="lead"><i class="glyphicon glyphicon-info-sign"></i> Powered by Source Speak</p>
+        </div>
+      </div>
+    </div> <!-- /container -->
+  </body>
 </html>

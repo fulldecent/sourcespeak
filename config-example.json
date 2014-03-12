@@ -1,0 +1,31 @@
+{
+  "siteName":"Source Speak Demo",
+  "siteTagline":"A default install to demonstrate the project",
+  "adminEmail":"sourcespeak@phor.net",
+  "metadataFields":[
+    {
+      "name":"Author",
+      "type":"text",
+      "displayOnIndex":true,
+      "displayOnDetails":true
+    },
+    {
+      "name":"Version",
+      "type":"text",
+      "displayOnIndex":true,
+      "displayOnDetails":true
+    },
+    {
+      "name":"Description",
+      "type":"text",
+      "displayOnIndex":true,
+      "displayOnDetails":true
+    },
+    {
+      "name":"Details",
+      "type":"text",
+      "displayOnIndex":true,
+      "displayOnDetails":false
+    }
+  ]
+}

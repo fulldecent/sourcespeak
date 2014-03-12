@@ -1,100 +1,101 @@
 <?php
-  # project.php - Shows files in a project
-  #
-  # Inputs (in $_GET):
-  #   name: The name of the project (folder name in the projects dir)
-  #   path (optional): A path in that project
+error_reporting(-1);
+# project.php - Shows files in a project
+#
+# Inputs (in $_GET):
+#   name: The name of the project (folder name in the projects dir)
+#   path (optional): A path in that project
 
-  require 'config.php';
-
-  $project = $_REQUEST['name'];
-  if (strstr($_REQUEST['path'],'..'))
-    die ('Hey! No hacking!');
-  if (strstr($_REQUEST['name'],'..'))
-    die ('Hey! No hacking!');
-  
-  if (file_exists("metadata/$project.txt"))
-    $metadata = unserialize(implode('',file("metadata/$project.txt")));
-  
-  $path = $_REQUEST['path'];
+if (!file_exists('config.json'))
+  die('Please edit config-example.json and move it to config.json to activate this site.');
+$config = json_decode(file_get_contents('config.json'));
+$project = isset($_REQUEST['project']) ? $_REQUEST['project'] : '';
+$path = isset($_REQUEST['path']) ? $_REQUEST['path'] : '';
+if (strstr($project,'..'))
+  die ('Hey! No hacking!');
+if (strstr($path,'..'))
+  die ('Hey! No hacking!');
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-  <title><?= $project ?></title>
-  <link rel="stylesheet" href="common.css" type="text/css" />
-</head>
-<body>
-  <h1><img src="images/project.png" alt="project" /> <?= $project ?></h1>
-  <div id="leftcolumn">
-    <h2>Browsing: <?= "/$path" ?></h2>
-    <ul>
-<?php
-  # List files
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= $config->siteName ?></title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
 
-  $dir_handle = opendir("projects/$project/$path") 
-    or die('Project not found');
-  
-  while ($file = readdir($dir_handle))
+  <body>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <a class="navbar-brand" href="index.php"><i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i> <?= $config->siteName ?></a>
+        <p class="navbar-text"><?= $config->siteTagline ?></p>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="page-header">
+        <h1><i class="glyphicon glyphicon-book"></i> <?= $project ?></h1>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+        <h2>Browsing /<?= $path ?></h2>
+        <table class="table">
+<?php
+# List files
+
+$dir_handle = opendir("projects/$project/$path") 
+  or die('Project not found');
+
+while ($file = readdir($dir_handle))
+{
+  if ($file[0]=='.') continue;
+  echo "      <tr><td>\n";  
+  if (is_dir("projects/$project/$path$file")) {    
+    echo "        <a href=\"project.php&#63;project=$project&amp;path=$path$file/\">\n";
+    echo "          <img src=\"images/folder-small.png\" alt=\"directory\" />\n";
+    echo "          $file</a>\n";
+  } else {
+    echo "        <a href=\"file.php&#63;project=$project&amp;path=$path$file\">\n";
+    echo "          <img src=\"images/source-small.png\" alt=\"file\" />\n";
+    echo "          $file</a>\n";
+    echo "        <a style=\"font-weight:normal; font-style:italic\" href=\"projects/$project/$path$file\">(download)</a>\n";
+  }
+  echo "      </td></tr>\n";
+}    
+closedir($dir_handle);
+?>
+        </table>
+
+        </div>
+        <div class="col-md-4">
+          <h2>Project info</h2>
+<?php
+  if (file_exists("metadata/$project.json"))
   {
-    if ($file[0]=='.') continue;
-    
-//    $mimetype = `file -ib projects/$project/$file`;
-//    $mimetype = mime_content_type("projects/$project/$file");
-    echo "      <li>\n";
-    
-    if (is_dir("projects/$project/$path$file"))
-    {    
-      echo "        <a href=\"project.php&#63;name=$project&amp;path=$path$file/\">\n";
-      echo "          <img src=\"images/folder-small.png\" alt=\"directory\" />\n";
-      echo "          $file</a>\n";
-    }
-    else
+    $metadata = json_decode(file_get_contents("metadata/$project.json"));
+    echo "        <dl class=\"dl-horizontal\">\n";
+    foreach ($config->metadataFields as $field)
     {
-      echo "        <a href=\"file.php&#63;project=$project&amp;path=$path$file\">\n";
-      echo "          <img src=\"images/source-small.png\" alt=\"file\" />\n";
-      echo "          $file</a>\n";
-      echo "        <a style=\"font-weight:normal; font-style:italic\" href=\"projects/$project/$path$file\">(download)</a>\n";
+      if (!isset($metadata->{$field->name})) continue;
+      echo "          <dt>".$field->name.":</dt><dd>".$metadata->{$field->name}."</dd>\n";
     }
-
-    echo "      </li>\n";
-  }    
- 
-  closedir($dir_handle);
-?>
-    </ul>
-  </div>
-  <div id="rightcolumn">
-    <h2>Project Info</h2>
-    <ul>
-      <li>
-<?php
-  if ($metadata)
-  {
-    echo "        <dl>\n";
-    foreach ($metadata_fields as $field)
-      if ($metadata[$field[0]]) 
-        echo "          <dt>".$field[0].":</dt><dd>".$metadata[$field[0]]."</dd>\n";
     echo "        </dl>\n";
-    echo "        <div style=\"clear:both\" />\n";
   }
   else
   {
-    echo "        <p class=\"nometadata\">No metadata</p>\n";
+    echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
   }
-?>
-      </li>
-      <li>
-        <a href="index.php"><img src="images/logo-small.png" alt="link" /> Home</a>
-      </li>
-      <li>
-        <a href="tar.php&#63;project=<?= $project ?>"><img src="images/logo-small.png" alt="link" /> Download Tar</a>
-      </li>
-      <li>
-        <a href="edit.php?name=<?=$project?>"><img src="images/logo-small.png" alt="link" /> Edit Metadata</a>
-      </li>
-    </ul>
-  </div>
-  <div id="footer">&nbsp;</div>
-</body>
+?>        
+          <p class="lead"><a href="tar.php&#63;project=<?= $project ?>"><i class="glyphicon glyphicon-download"></i> Download Tar</a>
+        </div>
+      </div>
+    </div> <!-- /container -->
+  </body>
 </html>
