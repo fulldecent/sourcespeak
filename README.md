@@ -1,9 +1,8 @@
-Source Speak
+Source Speak 2.0
 ============
 
-Version 2.0
-Copyright (C) 2001-2014 William Entriken
-https://github.com/fulldecent/sourcespeak
+Copyright (C) 2001-2014 William Entriken<br>
+https://github.com/fulldecent/sourcespeak<br>
 sourcespeak@phor.net
 
 Source Speak is a turn-key system for displaying source code on your web site.
