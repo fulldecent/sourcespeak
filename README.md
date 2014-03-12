@@ -1,9 +1,8 @@
-Source Speak
+Source Speak 2.0
 ============
 
-Version 2.0
-Copyright (C) 2001-2014 William Entriken
-https://github.com/fulldecent/sourcespeak
+Copyright (C) 2001-2014 William Entriken<br>
+https://github.com/fulldecent/sourcespeak<br>
 sourcespeak@phor.net
 
 Source Speak is a turn-key system for displaying source code on your web site.
@@ -35,4 +34,4 @@ Installation
  3. Set permissions with `chown -R apache:apache cache metadata` or `chmod 777 cache/ metadata/`
  4. Add your source code to the `projects/` folder or use a softlink
 
-Thank you for choosing Source Speak for your source code displaying needs!
+Thank you for choosing Source Speak for your source code displaying needs
