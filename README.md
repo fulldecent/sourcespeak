@@ -1,4 +1,4 @@
-Source Speak 2.0
+Source Speak 2.0 [![Build Status](https://travis-ci.org/fulldecent/sourcespeak.png?branch=master)](https://travis-ci.org/fulldecent/sourcespeak)
 ============
 
 Copyright (C) 2001-2014 William Entriken<br>
