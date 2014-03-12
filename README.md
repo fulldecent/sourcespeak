@@ -34,4 +34,4 @@ Installation
  3. Set permissions with `chown -R apache:apache cache metadata` or `chmod 777 cache/ metadata/`
  4. Add your source code to the `projects/` folder or use a softlink
 
-Thank you for choosing Source Speak for your source code displaying needs!
+Thank you for choosing Source Speak for your source code displaying needs
