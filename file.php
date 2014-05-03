@@ -69,12 +69,12 @@ if (!file_exists($filename_pretty) || filemtime($filename_pretty) <= filemtime($
     </nav>
     <div class="container">
       <h1>
-        <a href="project.php&#63;name=<?= $project?>"><img src="images/project-small.png" alt="project" /> <?= $project ?></a><br>
+        <a href="project.php&#63;name=<?= $project?>"><i class="glyphicon glyphicon-book"></i> <?= $project ?></a><br>
     <?php
         if (dirname($path) && dirname($path) != '.')
-          echo "    <a href=\"project.php&#63;name=".$project."&amp;path=".dirname($path)."\"><img src=\"images/folder-small.png\" alt=\"folder\" /> ". dirname($path) ."</a><br>\n";
+          echo "    <a href=\"project.php&#63;name=".$project."&amp;path=".dirname($path)."\"><i class=\"glyphicon glyphicon-book\"></i>". dirname($path) ."</a><br>\n";
     ?>
-        <img src="images/source-small.png" alt="file" /> <?= basename($path) ?>
+        <i class="glyphicon glyphicon-file"></i> <?= basename($path) ?>
       </h1>
       <pre><?php echo str_replace('^M','',implode('',file($filename_pretty))); ?></pre>
     </div> <!-- /container -->
