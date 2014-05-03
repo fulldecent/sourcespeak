@@ -59,11 +59,11 @@ while ($file = readdir($dir_handle))
   echo "      <tr><td>\n";  
   if (is_dir("projects/$project/$path$file")) {    
     echo "        <a href=\"project.php&#63;project=$project&amp;path=$path$file/\">\n";
-    echo "          <img src=\"images/folder-small.png\" alt=\"directory\" />\n";
+    echo "          <i class=\"glyphicon glyphicon-folder-open\"></i>&nbsp;\n";
     echo "          $file</a>\n";
   } else {
     echo "        <a href=\"file.php&#63;project=$project&amp;path=$path$file\">\n";
-    echo "          <img src=\"images/source-small.png\" alt=\"file\" />\n";
+    echo "          <i class=\"glyphicon glyphicon-file\"></i>&nbsp;\n";
     echo "          $file</a>\n";
     echo "        <a style=\"font-weight:normal; font-style:italic\" href=\"projects/$project/$path$file\">(download)</a>\n";
   }
