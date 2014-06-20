@@ -37,7 +37,7 @@ script:
   ## PHPLOC
   - php phploc.phar .
   ## PHPUNIT
-  - phpunit .
+  - phpunit test
 
 notifications:
   email:
