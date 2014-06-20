@@ -7,6 +7,12 @@ sourcespeak@phor.net
 
 Source Speak is a turn-key system for displaying source code on your web site.
 
+<p align="center">
+<img src="https://i.imgur.com/XKWdKC0.png" width=200>
+<img src="https://i.imgur.com/QqEph4i.png" width=200>
+<img src="https://i.imgur.com/nb1mbfz.png" width=200>
+<p>
+
 Features
 --------
 
