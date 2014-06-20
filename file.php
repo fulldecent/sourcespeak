@@ -8,39 +8,38 @@ error_reporting(-1);
 #   redo (optional): 'True' if you want to regenerate the styled code
 #     note that styling is automatically updated when file changes
 
-if (!file_exists('config.json'))
-  die('Please edit config-example.json and move it to config.json to activate this site.');
+if (!file_exists('config.json')) {
+    die('Please edit config-example.json and move it to config.json to activate this site.');
+}
 $config = json_decode(file_get_contents('config.json'));
 $project = isset($_REQUEST['project']) ? $_REQUEST['project'] : '';
 $path = isset($_REQUEST['path']) ? $_REQUEST['path'] : '';
-if (strstr($project,'..'))
-  die ('Hey! No hacking!');
-if (strstr($path,'..'))
-  die ('Hey! No hacking!');
-  
 $filename = "projects/$project/$path";
 $filename_pretty = "cache/$project/$path";
 
-if (preg_match('/[^a-z0-9A-Z]/', $project))
-  die ('Hey! No hacking!');
-if (strstr($filename,'..'))
-  die ('Hey! No hacking!');
-if (!file_exists($filename))
-  die('That source file doesnt exist');
-
-function mkdir_p($path)
-{
-  return is_dir($path) || mkdir_p(dirname($path)) && mkdir($path);
+if (strstr($project,'..')) {
+    die ('Hey! No hacking!');
+}
+if (strstr($path,'..')) {
+    die ('Hey! No hacking!');
+}
+if (preg_match('/[^a-z0-9A-Z]/', $project)) {
+    die ('Hey! No hacking!');
+}
+if (strstr($filename,'..')) {
+    die ('Hey! No hacking!');
+}
+if (!file_exists($filename)) {
+     die('That source file does not exist');
 }
 
 if (!file_exists($filename_pretty) || filemtime($filename_pretty) <= filemtime($filename) || isset($_REQUEST['redo']))
 {
-  //TODO: ex and rename in one step
-  //TODO: standardize file endings in this step too
-  
-  mkdir_p(dirname($filename_pretty));
-  $cmd = 'FILE="'.$filename_pretty.'" vim -e +"source ./highlight.vim" '.escapeshellarg($filename).' 2>&1';
-  $result = `$cmd`;
+    //TODO: ex and rename in one step
+    //TODO: standardize file endings in this step too
+    mkdir(dirname($filename_pretty), 0777, true);
+    $cmd = 'FILE="'.$filename_pretty.'" vim -e +"source ./highlight.vim" '.escapeshellarg($filename).' 2>&1';
+    $result = `$cmd`;
 }
 ?>
 <!DOCTYPE html>
@@ -80,7 +79,3 @@ if (!file_exists($filename_pretty) || filemtime($filename_pretty) <= filemtime($
     </div> <!-- /container -->
   </body>
 </html>
-
-
-
-

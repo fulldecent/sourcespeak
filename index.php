@@ -3,8 +3,9 @@ error_reporting(-1);
 # index.php - Displays an overview of projects.
 #
 # Inputs: none
-if (!file_exists('config.json'))
-  die('Please copy config-example.json to config.json and edit it to activate this site.');
+if (!file_exists('config.json')) {
+    die('Please copy config-example.json to config.json and edit it to activate this site.');
+}
 $config = json_decode(file_get_contents('config.json'));
 $project_count = 0;
 ?>
@@ -37,33 +38,33 @@ $project_count = 0;
 <?php
 foreach (glob('projects/*/') as $project)
 {
-  if ($project[0]=='.') continue;
-  $project = basename($project);
-  if (preg_match('/[^a-zA-Z0-9.-]/',$project))
-    continue;
-  $project_count++;
-
-  echo "      <div class=\"thumbnail\">\n";
-  echo "        <a href=\"project.php&#63;project=$project\">\n";
-  echo "          <h3><i class=\"glyphicon glyphicon-book\"></i> $project</h3>\n";
-  echo "        </a>\n";
-
-  if (file_exists("metadata/$project.json"))
-  {
-    $metadata = json_decode(file_get_contents("metadata/$project.json"));
-    echo "        <dl class=\"dl-horizontal\">\n";
-    foreach ($config->metadataFields as $field)
-    {
-      if (!isset($metadata->{$field->name})) continue;
-      echo "          <dt>".$field->name.":</dt><dd>".$metadata->{$field->name}."</dd>\n";
+    if ($project[0]=='.') {
+        continue;
     }
-    echo "        </dl>\n";
-  }
-  else
-  {
-    echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
-  }
-  echo "      </div>\n";
+    $project = basename($project);
+    if (preg_match('/[^a-zA-Z0-9.-]/',$project)) {
+        continue;
+    }
+    $project_count++;
+  
+    echo "      <div class=\"thumbnail\">\n";
+    echo "        <a href=\"project.php&#63;project=$project\">\n";
+    echo "          <h3><i class=\"glyphicon glyphicon-book\"></i> $project</h3>\n";
+    echo "        </a>\n";
+  
+    if (file_exists("metadata/$project.json")) {
+        $metadata = json_decode(file_get_contents("metadata/$project.json"));
+        echo "        <dl class=\"dl-horizontal\">\n";
+        foreach ($config->metadataFields as $field) {
+            if (!isset($metadata->{$field->name})) continue;
+            echo "          <dt>".$field->name.":</dt><dd>".$metadata->{$field->name}."</dd>\n";
+        }
+        echo "        </dl>\n";
+    }
+    else {
+        echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
+    }
+    echo "      </div>\n";
 }
 ?>
         </div>
