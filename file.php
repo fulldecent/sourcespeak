@@ -17,16 +17,16 @@ $path = isset($_REQUEST['path']) ? $_REQUEST['path'] : '';
 $filename = "projects/$project/$path";
 $filename_pretty = "cache/$project/$path";
 
-if (strstr($project,'..')) {
+if (strstr($project, '..')) {
     die ('Hey! No hacking!');
 }
-if (strstr($path,'..')) {
+if (strstr($path, '..')) {
     die ('Hey! No hacking!');
 }
 if (preg_match('/[^a-z0-9A-Z]/', $project)) {
     die ('Hey! No hacking!');
 }
-if (strstr($filename,'..')) {
+if (strstr($filename, '..')) {
     die ('Hey! No hacking!');
 }
 if (!file_exists($filename)) {

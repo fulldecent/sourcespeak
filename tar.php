@@ -1,9 +1,9 @@
 <?php
 $project = $_REQUEST['project'];
-if (strstr($project,'..')) {
+if (strstr($project, '..')) {
     die ('Hey! No hacking!');
 }
-if (strstr($project,"'")) {
+if (strstr($project, "'")) {
     die ('Hey! No hacking!');
 }
 chdir('projects');

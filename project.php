@@ -12,10 +12,10 @@ if (!file_exists('config.json')) {
 $config = json_decode(file_get_contents('config.json'));
 $project = isset($_REQUEST['project']) ? $_REQUEST['project'] : '';
 $path = isset($_REQUEST['path']) ? $_REQUEST['path'] : '';
-if (strstr($project,'..')) {
+if (strstr($project, '..')) {
     die ('Hey! No hacking!');
 }
-if (strstr($path,'..')) {
+if (strstr($path, '..')) {
     die ('Hey! No hacking!');
 }
 ?>
@@ -56,19 +56,20 @@ if (strstr($path,'..')) {
 $dir_handle = opendir("projects/$project/$path") 
   or die('Project not found');
 
-while ($file = readdir($dir_handle))
-{
-    if ($file[0]=='.') continue;
-    echo "      <tr><td>\n";  
-    if (is_dir("projects/$project/$path$file")) {    
-      echo "        <a href=\"project.php&#63;project=$project&amp;path=$path$file/\">\n";
-      echo "          <i class=\"glyphicon glyphicon-folder-open\"></i>&nbsp;\n";
-      echo "          $file</a>\n";
+while ($file = readdir($dir_handle)) {
+    if ($file[0]=='.') {
+        continue;
+    }
+    echo "      <tr><td>\n";
+    if (is_dir("projects/$project/$path$file")) {
+        echo "        <a href=\"project.php&#63;project=$project&amp;path=$path$file/\">\n";
+        echo "          <i class=\"glyphicon glyphicon-folder-open\"></i>&nbsp;\n";
+        echo "          $file</a>\n";
     } else {
-      echo "        <a href=\"file.php&#63;project=$project&amp;path=$path$file\">\n";
-      echo "          <i class=\"glyphicon glyphicon-file\"></i>&nbsp;\n";
-      echo "          $file</a>\n";
-      echo "        <a style=\"font-weight:normal; font-style:italic\" href=\"projects/$project/$path$file\">(download)</a>\n";
+        echo "        <a href=\"file.php&#63;project=$project&amp;path=$path$file\">\n";
+        echo "          <i class=\"glyphicon glyphicon-file\"></i>&nbsp;\n";
+        echo "          $file</a>\n";
+        echo "        <a style=\"font-weight:normal; font-style:italic\" href=\"projects/$project/$path$file\">(download)</a>\n";
     }
     echo "      </td></tr>\n";
 }    
@@ -80,19 +81,15 @@ closedir($dir_handle);
         <div class="col-md-4">
           <h2>Project info</h2>
 <?php
-if (file_exists("metadata/$project.json"))
-{
+if (file_exists("metadata/$project.json")) {
     $metadata = json_decode(file_get_contents("metadata/$project.json"));
     echo "        <dl class=\"dl-horizontal\">\n";
-    foreach ($config->metadataFields as $field)
-    {
+    foreach ($config->metadataFields as $field) {
         if (!isset($metadata->{$field->name})) continue;
         echo "          <dt>".$field->name.":</dt><dd>".$metadata->{$field->name}."</dd>\n";
     }
     echo "        </dl>\n";
-}
-else
-{
+} else {
     echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
 }
 ?>        
