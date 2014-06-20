@@ -11,34 +11,26 @@ error_reporting(-1);
 if (!file_exists('config.json')) {
     die('Please edit config-example.json and move it to config.json to activate this site.');
 }
+if (!isset($_REQUEST['project'], $_REQUEST['path'])) {
+    die('Valid URL format is: file.php?project=PROJECT&path=PATH');
+}
+if (strstr($_REQUEST['project'] . $_REQUEST['path'], '..')) {
+    die ('Hey! No hacking!');
+}
+
 $config = json_decode(file_get_contents('config.json'));
 $project = isset($_REQUEST['project']) ? $_REQUEST['project'] : '';
 $path = isset($_REQUEST['path']) ? $_REQUEST['path'] : '';
 $filename = "projects/$project/$path";
-$filename_pretty = "cache/$project/$path";
-
-if (strstr($project, '..')) {
-    die ('Hey! No hacking!');
-}
-if (strstr($path, '..')) {
-    die ('Hey! No hacking!');
-}
-if (preg_match('/[^a-z0-9A-Z]/', $project)) {
-    die ('Hey! No hacking!');
-}
-if (strstr($filename, '..')) {
-    die ('Hey! No hacking!');
-}
 if (!file_exists($filename)) {
-     die('That source file does not exist');
+    die('That source file does not exist');
 }
-
-if (!file_exists($filename_pretty) || filemtime($filename_pretty) <= filemtime($filename) || isset($_REQUEST['redo']))
-{
-    //TODO: ex and rename in one step
-    //TODO: standardize file endings in this step too
-    mkdir(dirname($filename_pretty), 0777, true);
-    $cmd = 'FILE="'.$filename_pretty.'" vim -e +"source ./highlight.vim" '.escapeshellarg($filename).' 2>&1';
+$filenamePretty = "cache/$project/$path.txt";
+if (!file_exists($filenamePretty) || filemtime($filenamePretty) <= filemtime($filename) || isset($_REQUEST['redo'])) {
+    if (is_dir(dirname($filenamePretty))) {
+        mkdir(dirname($filenamePretty), 0777, true);
+    }
+    $cmd = 'FILE="'.$filenamePretty.'" vim -e +"source ./highlight.vim" '.escapeshellarg($filename).' 2>&1';
     $result = `$cmd`;
 }
 ?>
@@ -62,20 +54,29 @@ if (!file_exists($filename_pretty) || filemtime($filename_pretty) <= filemtime($
   <body>
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container">
-        <a class="navbar-brand" href="index.php"><i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i> <?= $config->siteName ?></a>
+        <a class="navbar-brand" href="index.php">
+          <i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i>
+          <?= $config->siteName ?>
+        </a>
         <p class="navbar-text"><?= $config->siteTagline ?></p>
       </div>
     </nav>
     <div class="container">
       <h1>
         <a href="project.php&#63;name=<?= $project?>"><i class="glyphicon glyphicon-book"></i> <?= $project ?></a><br>
-    <?php
-        if (dirname($path) && dirname($path) != '.')
-          echo "    <a href=\"project.php&#63;name=".$project."&amp;path=".dirname($path)."\"><i class=\"glyphicon glyphicon-book\"></i>". dirname($path) ."</a><br>\n";
-    ?>
+<?php
+if (dirname($path) && dirname($path) != '.') {
+    $hrefEntities = "project.php&#63;name=".$project."&amp;path=".dirname($path);
+    echo "    <a href=\"$hrefEntities\"><i class=\"glyphicon glyphicon-book\"></i>". dirname($path) ."</a><br>\n";
+}
+?>
         <i class="glyphicon glyphicon-file"></i> <?= basename($path) ?>
       </h1>
-      <pre><?php echo str_replace('^M','',implode('',file($filename_pretty))); ?></pre>
-    </div> <!-- /container -->
+      <pre>
+<?php
+echo str_replace('^M', '', implode('', file($filenamePretty)));
+?>
+      </pre>
+    </div>
   </body>
 </html>

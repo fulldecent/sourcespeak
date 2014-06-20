@@ -28,7 +28,10 @@ $project_count = 0;
   <body>
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container">
-        <a class="navbar-brand" href="index.php"><i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i> <?= $config->siteName ?></a>
+        <a class="navbar-brand" href="index.php">
+            <i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i>
+            <?= $config->siteName ?>
+        </a>
         <p class="navbar-text"><?= $config->siteTagline ?></p>
       </div>
     </nav>
@@ -36,13 +39,12 @@ $project_count = 0;
       <div class="row">
         <div class="col-md-8">
 <?php
-foreach (glob('projects/*/') as $project)
-{
+foreach (glob('projects/*/') as $project) {
     if ($project[0]=='.') {
         continue;
     }
     $project = basename($project);
-    if (preg_match('/[^a-zA-Z0-9.-]/',$project)) {
+    if (preg_match('/[^a-zA-Z0-9.-]/', $project)) {
         continue;
     }
     $project_count++;
@@ -56,12 +58,13 @@ foreach (glob('projects/*/') as $project)
         $metadata = json_decode(file_get_contents("metadata/$project.json"));
         echo "        <dl class=\"dl-horizontal\">\n";
         foreach ($config->metadataFields as $field) {
-            if (!isset($metadata->{$field->name})) continue;
+            if (!isset($metadata->{$field->name})) {
+                continue;
+            }
             echo "          <dt>".$field->name.":</dt><dd>".$metadata->{$field->name}."</dd>\n";
         }
         echo "        </dl>\n";
-    }
-    else {
+    } else {
         echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
     }
     echo "      </div>\n";
@@ -74,6 +77,6 @@ foreach (glob('projects/*/') as $project)
           <p class="lead"><i class="glyphicon glyphicon-info-sign"></i> Powered by Source Speak</p>
         </div>
       </div>
-    </div> <!-- /container -->
+    </div>
   </body>
 </html>

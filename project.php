@@ -38,7 +38,10 @@ if (strstr($path, '..')) {
   <body>
     <nav class="navbar navbar-default navbar-static-top" role="navigation">
       <div class="container">
-        <a class="navbar-brand" href="index.php"><i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i> <?= $config->siteName ?></a>
+        <a class="navbar-brand" href="index.php">
+            <i style="margin:-14px 0; color:pink" class="glyphicon glyphicon-heart"></i>
+            <?= $config->siteName ?>
+        </a>
         <p class="navbar-text"><?= $config->siteTagline ?></p>
       </div>
     </nav>
@@ -53,7 +56,7 @@ if (strstr($path, '..')) {
 <?php
 # List files
 
-$dir_handle = opendir("projects/$project/$path") 
+$dir_handle = opendir("projects/$project/$path")
   or die('Project not found');
 
 while ($file = readdir($dir_handle)) {
@@ -69,10 +72,9 @@ while ($file = readdir($dir_handle)) {
         echo "        <a href=\"file.php&#63;project=$project&amp;path=$path$file\">\n";
         echo "          <i class=\"glyphicon glyphicon-file\"></i>&nbsp;\n";
         echo "          $file</a>\n";
-        echo "        <a style=\"font-weight:normal; font-style:italic\" href=\"projects/$project/$path$file\">(download)</a>\n";
     }
     echo "      </td></tr>\n";
-}    
+}
 closedir($dir_handle);
 ?>
         </table>
@@ -85,7 +87,9 @@ if (file_exists("metadata/$project.json")) {
     $metadata = json_decode(file_get_contents("metadata/$project.json"));
     echo "        <dl class=\"dl-horizontal\">\n";
     foreach ($config->metadataFields as $field) {
-        if (!isset($metadata->{$field->name})) continue;
+        if (!isset($metadata->{$field->name})) {
+            continue;
+        }
         echo "          <dt>".$field->name.":</dt><dd>".$metadata->{$field->name}."</dd>\n";
     }
     echo "        </dl>\n";
@@ -93,7 +97,11 @@ if (file_exists("metadata/$project.json")) {
     echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
 }
 ?>        
-          <p class="lead"><a href="tar.php&#63;project=<?= $project ?>"><i class="glyphicon glyphicon-download"></i> Download Tar</a>
+          <p class="lead">
+              <a href="tar.php&#63;project=<?= $project ?>">
+                  <i class="glyphicon glyphicon-download"></i> Download Tar
+              </a>
+          </p>
         </div>
       </div>
     </div> <!-- /container -->
