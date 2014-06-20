@@ -5,8 +5,40 @@ php:
   - "5.4"
   - "5.5"
 
-script: phpunit test
+before_script:
+  ## PHP_CodeSniffer
+  - pear install pear/PHP_CodeSniffer
+  - phpenv rehash
+  ## PHP Copy/Paste Detector
+  - curl -o phpcpd.phar https://phar.phpunit.de/phpcpd.phar
+  ## PHP Mess Detector
+  - pear config-set preferred_state beta
+  - printf "\n" | pecl install imagick
+  - pear channel-discover pear.phpmd.org
+  - pear channel-discover pear.pdepend.org
+  - pear install --alldeps phpmd/PHP_PMD
+  - phpenv rehash
+  ## PHPLOC
+  - curl -o phploc.phar https://phar.phpunit.de/phploc.phar
+
+script:
+  ## PHP_CodeSniffer
+  - phpcs --report=emacs --standard=PSR1 . --ignore=modules/security/openid/lightopenid/*
+  - phpcs --report=emacs --standard=PSR2 . --ignore=modules/security/openid/lightopenid/* 
+  ## PHP Copy/Paste Detector
+  - php phpcpd.phar --verbose .
+  ## PHP Mess Detector
+  - phpmd . text cleancode --exclude modules/security/openid/lightopenid
+  - phpmd . text codesize --exclude modules/security/openid/lightopenid
+  - phpmd . text controversial --exclude modules/security/openid/lightopenid
+  - phpmd . text design --exclude modules/security/openid/lightopenid
+  - phpmd . text naming --exclude modules/security/openid/lightopenid
+  - phpmd . text unusedcode --exclude modules/security/openid/lightopenid
+  ## PHPLOC
+  - php phploc.phar .
+  ## PHPUNIT
+  - phpunit .
 
 notifications:
   email:
-    - sourcespeak@phor.net
+    sourcespeak@phor.net
