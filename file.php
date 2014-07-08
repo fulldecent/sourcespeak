@@ -42,7 +42,7 @@ if (!file_exists($filenamePretty) || filemtime($filenamePretty) <= filemtime($fi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $config->siteName ?></title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="common.css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
