@@ -38,6 +38,9 @@ script:
   - php phploc.phar .
   ## PHPUNIT
   - phpunit test
+  ## WEB-PUC
+  - git clone https://github.com/fulldecent/web-puc.git ~/web-puc
+  - ~/web-puc/web-puc.sh .
 
 notifications:
   email:
