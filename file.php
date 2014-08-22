@@ -72,11 +72,11 @@ if (dirname($path) && dirname($path) != '.') {
 ?>
         <i class="glyphicon glyphicon-file"></i> <?= basename($path) ?>
       </h1>
-      <pre>
 <?php
+echo "<pre>";
 echo str_replace('^M', '', implode('', file($filenamePretty)));
+echo "</pre>";
 ?>
-      </pre>
     </div>
   </body>
 </html>

@@ -1,7 +1,7 @@
 
 
 /* Source code style */
-.lnr        { color:gray; visibility:hidden; }
+.lnr        { color:gray; visibility:hidden; display:none }
 .Comment    { color:#333333; font-style: italic; }
 .Statement  { color:#0000AA; }
 .Constant   { color:red; }
