@@ -1,11 +1,14 @@
 " Vim syntax support file
-" Maintainer: Bram Moolenaar <Bram@vim.org>
-" Last Change: 2003 May 31
-"	       (modified by David Ne\v{c}as (Yeti) <yeti@physics.muni.cz>)
-
-" Transform a file into HTML, using the current syntax highlighting.
+"
+" Maintainer: William Entriken <github.com@phor.net>
+" Last Change: 2014 Sep 1
+" Forked from: 2html.vim / Bram Moolenaar / 2003 May 31
+"
+" Transforms a file into HTML, using the current syntax highlighting.
+" Outputs semantic HTML, with style to be applied separately
 "
 " Pass FILE as environmental variable to set output file
+"
 
 redir > cache/vimoutput.txt
 let term="gui"
@@ -17,12 +20,9 @@ syn on
 set notitle noicon
 setlocal et
 set report=1000000
-let " debug
 
 " Split window to create a buffer with the HTML file.
 new $FILE
-"new cache/tmp.html
-"set modifiable
 %d
 set paste
 set magic
