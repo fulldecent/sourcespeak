@@ -27,7 +27,7 @@ if (!file_exists($filename)) {
 }
 $filenamePretty = "cache/$project/$path.txt";
 if (!file_exists($filenamePretty) || filemtime($filenamePretty) <= filemtime($filename) || isset($_REQUEST['redo'])) {
-    if (is_dir(dirname($filenamePretty))) {
+    if (!is_dir(dirname($filenamePretty))) {
         mkdir(dirname($filenamePretty), 0777, true);
     }
     $cmd = 'FILE="'.$filenamePretty.'" vim -e +"source ./highlight.vim" '.escapeshellarg($filename).' 2>&1';
