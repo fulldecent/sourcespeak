@@ -1,4 +1,7 @@
-Source Speak 2.0 [![Build Status](https://travis-ci.org/fulldecent/sourcespeak.png?branch=master)](https://travis-ci.org/fulldecent/sourcespeak)
+[![Build Status](https://travis-ci.org/fulldecent/sourcespeak.png?branch=master)](https://travis-ci.org/fulldecent/sourcespeak)
+[![Code Climate](https://codeclimate.com/github/fulldecent/sourcespeak/badges/gpa.svg)](https://codeclimate.com/github/fulldecent/sourcespeak)
+
+Source Speak 2.0 
 ============
 
 Copyright (C) 2001-2014 William Entriken<br>
