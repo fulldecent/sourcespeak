@@ -87,6 +87,9 @@ if (file_exists("metadata/$project.json")) {
     $metadata = json_decode(file_get_contents("metadata/$project.json"));
     echo "        <dl class=\"dl-horizontal\">\n";
     foreach ($config->metadataFields as $field) {
+        if (!$field->displayOnDetails) {
+            continue;
+        }
         if (!isset($metadata->{$field->name})) {
             continue;
         }
@@ -94,7 +97,7 @@ if (file_exists("metadata/$project.json")) {
     }
     echo "        </dl>\n";
 } else {
-    echo "        <dl class=\"dl-horizontal\"><dd>(no metadata)</dd></dl>";
+    echo "        <p class=\"text-muted\">(no metadata)</p";
 }
 ?>        
           <p class="lead">
