@@ -1,3 +1,5 @@
+**This project is dead. Call me if you want to take the torch.**
+
 [![Build Status](https://travis-ci.org/fulldecent/sourcespeak.png?branch=master)](https://travis-ci.org/fulldecent/sourcespeak)
 [![Code Climate](https://codeclimate.com/github/fulldecent/sourcespeak/badges/gpa.svg)](https://codeclimate.com/github/fulldecent/sourcespeak)
 
